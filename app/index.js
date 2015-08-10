@@ -281,10 +281,24 @@ module.exports = yeoman.generators.Base.extend({
                                             )
                                         }
                                         
-                                        //run watcher prompt
-                                        this.prompt(watchersFeatures, function (answers) {
-                                            this.watchersFeatures = answers.modules;
+                                        //check if there are any watch questions to show and if not just continue
+                                        if(watchersFeaturesArr.length>0){
+                                            
+                                            //run watcher prompt
+                                            this.prompt(watchersFeatures, function (answers) {
+                                                this.watchersFeatures = answers.modules;
+                                            
+                                                loadRemoteData.call(this);
+                                    
+                                            }.bind(this));
+                                            
+                                        }
+                                        else{
+                                            loadRemoteData.call(this);
+                                        }
                                         
+                                        
+                                        function loadRemoteData(){
                                             //get remote data and copy to root
                                             this.remote('sionnnn', 'fink','master', function(err, remote) {
                                                 
@@ -295,8 +309,8 @@ module.exports = yeoman.generators.Base.extend({
                                                 
                                                
                                             }.bind(this),true);
-                                
-                                        }.bind(this))
+                                        }
+                                        
                                         
                                     }.bind(this))
 
